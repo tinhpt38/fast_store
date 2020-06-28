@@ -1,19 +1,19 @@
 import 'package:fast_store/core/model/category.dart';
 
 class Product {
-  final String createdAt;
-  final String imageUrl;
+  final int categoryId;
+  final int id;
   final String name;
   final String phoneNumber;
   final int price;
   final int quantity;
+  final String location;
+  final String createdAt;
+  final String imageUrl;
   final String updatedAt;
   final int viewCount;
   final String description;
-  final int id;
-  final String location;
   final Category category;
-  final int categoryId;
 
   Product(
       {this.category,
@@ -27,7 +27,8 @@ class Product {
       this.quantity,
       this.updatedAt,
       this.viewCount,
-      this.location, this.categoryId});
+      this.location,
+      this.categoryId});
 
   Product.fromJson(Map<String, dynamic> json)
       : id = json["id"],

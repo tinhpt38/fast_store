@@ -25,17 +25,18 @@ class _ProductItemState extends State<ProductItem> {
             BoxShadow(
                 color: Colors.black45, offset: Offset(3, 6), blurRadius: 5)
           ]),
-      child: Stack(
-        children: [
-          AspectRatio(
-            aspectRatio: 1,
-            child: FlatButton(
-              onPressed: widget.onClick,
+      child: FlatButton(
+        onPressed: widget.onClick,
+        child: Stack(
+          children: [
+            AspectRatio(
+              aspectRatio: 1,
               child: Column(
                 children: [
                   Expanded(
                     flex: 2,
                     child: Container(
+                      padding: const EdgeInsets.symmetric(horizontal: 12),
                       child: CachedNetworkImage(
                         imageUrl: widget.product.imageUrl,
                         placeholder: (context, url) =>
@@ -85,33 +86,33 @@ class _ProductItemState extends State<ProductItem> {
                 ],
               ),
             ),
-          ),
-          Visibility(
-            visible: true,
-            child: Positioned(
-              right: -10,
-              top: 0,
-              child: Container(
-                  alignment: Alignment.topRight,
-                  child: ImageIcon(
-                    AssetImage("assets/banner.png"),
-                    color: Colors.yellow[100],
-                    size: 64,
-                  )),
-            ),
-          ),
-          Visibility(
-            visible: true,
-            child: Positioned(
-              right: 0,
-              top: 10,
-              child: Text(
-                "-50%",
-                style: TextStyle(color: AppColor.subPrimary, fontSize: 20),
+            Visibility(
+              visible: false,
+              child: Positioned(
+                right: -10,
+                top: 0,
+                child: Container(
+                    alignment: Alignment.topRight,
+                    child: ImageIcon(
+                      AssetImage("assets/banner.png"),
+                      color: Colors.yellow[100],
+                      size: 64,
+                    )),
               ),
             ),
-          ),
-        ],
+            Visibility(
+              visible: false,
+              child: Positioned(
+                right: 0,
+                top: 10,
+                child: Text(
+                  "-50%",
+                  style: TextStyle(color: AppColor.subPrimary, fontSize: 20),
+                ),
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
