@@ -7,8 +7,9 @@ import 'package:flutter/material.dart';
 class ScrollItemList extends StatefulWidget {
   final String category;
   final List<Product> products;
+  final Function(Product) onBuyClick;
 
-  ScrollItemList({this.category, this.products});
+  ScrollItemList({this.category, this.products, this.onBuyClick});
   @override
   _ScrollItemListState createState() => _ScrollItemListState();
 }
@@ -28,28 +29,34 @@ class _ScrollItemListState extends State<ScrollItemList> {
             style: AppStyle.title,
           ),
         ),
-        SizedBox(
-          height: size.height * (1 / 3),
-          child:  state()
-        ),
+        SizedBox(height: size.height * (1 / 3), child: state()),
       ],
     );
   }
-  Widget state(){
-    return widget.products.isEmpty ? Center(
-      child: Text("Chưa có gì để hiển thị"),
-    ): ListView(
+
+  Widget state() {
+    return widget.products.isEmpty
+        ? Center(
+            child: Text("Chưa có gì để hiển thị"),
+          )
+        : ListView(
             physics: BouncingScrollPhysics(),
             scrollDirection: Axis.horizontal,
-            children: widget.products.map((e) => ProductItem(
-              product: e,
-              onClick: (){
-                Navigator.push(context, 
-                MaterialPageRoute(
-                  builder: (_) => ProductDetail(e)
-                ));
-              },
-            )).toList()
-          );
+            children: widget.products
+                .map((e) => ProductItem(
+                      product: e,
+                      onClick: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (_) => ProductDetail(
+                                      product: e,
+                                      onBuyClick: () {
+                                        widget.onBuyClick(e);
+                                      },
+                                    )));
+                      },
+                    ))
+                .toList());
   }
 }

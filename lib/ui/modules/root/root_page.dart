@@ -11,21 +11,24 @@ class RootPage extends StatefulWidget {
   _RootPageState createState() => _RootPageState();
 }
 
-class _RootPageState extends State<RootPage> {
+class _RootPageState extends State<RootPage>
+    with AutomaticKeepAliveClientMixin {
   RootModel _model;
 
   @override
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) async {
+      _model.initilize();
       await _model.getDataFromApi();
     });
   }
 
   @override
   Widget build(BuildContext context) {
+    super.build(context);
     return PageBase<RootModel>(
-      model: RootModel(),
+      model: _model == null ? RootModel() : _model,
       builder: (context, model, child) {
         _model = model;
         return Scaffold(
@@ -57,30 +60,30 @@ class _RootPageState extends State<RootPage> {
                   ),
                 ),
 
-                //search
-                BottomNavigationBarItem(
-                  title: Text("Search"),
-                  icon: Icon(
-                    Icons.search,
-                    color: AppColor.primary,
-                  ),
-                  activeIcon: Icon(
-                    Icons.search,
-                    color: Colors.white,
-                  ),
-                ),
-                //more
-                BottomNavigationBarItem(
-                  title: Text("More"),
-                  icon: Icon(
-                    Icons.more_horiz,
-                    color: AppColor.primary,
-                  ),
-                  activeIcon: Icon(
-                    Icons.more_horiz,
-                    color: Colors.white,
-                  ),
-                ),
+                // //search
+                // BottomNavigationBarItem(
+                //   title: Text("Search"),
+                //   icon: Icon(
+                //     Icons.search,
+                //     color: AppColor.primary,
+                //   ),
+                //   activeIcon: Icon(
+                //     Icons.search,
+                //     color: Colors.white,
+                //   ),
+                // ),
+                // //more
+                // BottomNavigationBarItem(
+                //   title: Text("More"),
+                //   icon: Icon(
+                //     Icons.more_horiz,
+                //     color: AppColor.primary,
+                //   ),
+                //   activeIcon: Icon(
+                //     Icons.more_horiz,
+                //     color: Colors.white,
+                //   ),
+                // ),
                 //person
                 BottomNavigationBarItem(
                   title: Text("Cart"),
@@ -100,4 +103,7 @@ class _RootPageState extends State<RootPage> {
       },
     );
   }
+
+  @override
+  bool get wantKeepAlive => true;
 }

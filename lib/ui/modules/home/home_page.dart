@@ -15,7 +15,6 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  GlobalKey nestedKey = GlobalKey();
   String query = "";
   DateTime willPopTimeRef;
 
@@ -76,9 +75,12 @@ class _HomePageState extends State<HomePage> {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: model.categories.map((e) {
                                   return ScrollItemList(
-                                      category: e.name,
-                                      products:
-                                          model.productFormCategory(e.id));
+                                    category: e.name,
+                                    products: model.productFormCategory(e.id),
+                                    onBuyClick: (product) {
+                                      model.onBuyClick(product);
+                                    },
+                                  );
                                 }).toList(),
                               ),
                             ),

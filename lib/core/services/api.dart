@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:fast_store/core/model/category.dart';
 import 'package:fast_store/core/model/product.dart';
+import 'package:fast_store/core/model/user.dart';
 import 'package:http/http.dart' as http;
 
 const String host = "https://faststore20200628091030.azurewebsites.net";
@@ -57,6 +58,38 @@ class Api {
         products.add(Product.fromJson(element));
       });
       onsuccess(products);
+    } else {
+      onError('Đôi khi gặp một số sự cố! Vui lòng thử lại');
+    }
+  }
+
+  Future<void> login(
+    String username,
+    String pwd, {
+    Function(User) onSuccess,
+    Function(String) onError,
+  }) async {
+    String url = "$host/api/userlogin";
+    Map<String, String> body = {'user_name': username, 'password': pwd};
+    http.Response response = await http.post(url, body: body);
+    if (response.statusCode == 200) {
+      dynamic jsonData = json.decode(response.body);
+      User user = User.fromJson(jsonData);
+      onSuccess(user);
+    } else {
+      onError('Đôi khi gặp một số sự cố! Vui lòng thử lại');
+    }
+  }
+
+  Future<void> addOrder(String param1, String param2,
+      {Function onSuccess, Function onError}) async {
+    String url = "$host/api/categories";
+    Map<String, String> body = {'user_name': param1, 'password': param2};
+    http.Response response = await http.post(url, body: json.encode(body));
+    if (response.statusCode == 200) {
+      dynamic jsonData = json.decode(response.body);
+      User user = User.fromJson(jsonData);
+      onSuccess(user);
     } else {
       onError('Đôi khi gặp một số sự cố! Vui lòng thử lại');
     }
